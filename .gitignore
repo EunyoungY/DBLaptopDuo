@@ -31,6 +31,10 @@
 .pub/
 /build/
 
+.fvm/
+build/
+coverage/
+
 # Web related
 lib/generated_plugin_registrant.dart
 
@@ -44,3 +48,23 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+
+# Android related
+**/android/**/gradle-wrapper.jar
+**/android/.gradle
+**/android/captures/
+**/android/gradlew
+**/android/gradlew.bat
+**/android/key.properties
+**/android/local.properties
+**/android/**/GeneratedPluginRegistrant.java
+
+# Visual Studio Code related
+.classpath
+.project
+.settings/
+.vscode/
+pubspec.lock
+*.xml
+android/app/key.jks
