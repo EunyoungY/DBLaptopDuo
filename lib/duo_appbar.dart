@@ -15,7 +15,7 @@ class DuoAppBar extends StatelessWidget with PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    if(title == '상세스펙' || title == '마이페이지' ) {
+    if(title == '상세스펙' || title == '마이페이지' || title == '비교분석' ) {
 
       return AppBar(
         elevation: 0.5,
@@ -32,6 +32,7 @@ class DuoAppBar extends StatelessWidget with PreferredSizeWidget {
           color: Colors.black,
           onPressed: () {
             Navigator.pop(context);
+            if(title=='비교분석') Navigator.pop(context);
           },
         ),
       );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:laptop_duo/duo_appbar.dart';
+import 'filter.dart';
+import 'product_info.dart';
 
 class CustomizingSearch extends StatefulWidget {
   @override
@@ -12,6 +13,39 @@ class _CustomizingSearchState extends State<CustomizingSearch> {
     return Scaffold(
       body: Column(
         children: [
+          SizedBox(
+            height: 100
+          ),
+          IconButton(
+              icon: Icon(Icons.filter_alt_outlined),
+              iconSize: 24,
+              color: Colors.black54,
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) =>Filter() ));
+              }),
+          Text("필터 페이지로 가는 버튼"),
+          SizedBox(
+              height: 100
+          ),
+
+          IconButton(
+              icon: Icon(Icons.laptop_chromebook),
+              iconSize: 24,
+              color: Colors.black54,
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) =>ProductInfo() ));
+              }),
+          Text("제품 상세 페이지로 가는 버튼"),
+
+
+
+
 
         ],
       )
