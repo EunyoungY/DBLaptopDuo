@@ -203,10 +203,6 @@ class _ProductInfoState extends State<ProductInfo> {
                         ],
                       ),
                     ),
-
-
-
-
                     SizedBox(
                         height: 300
                     ),
