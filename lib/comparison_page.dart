@@ -1,30 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:laptop_duo/duo_appbar.dart';
 
-class Filter extends StatefulWidget {
+class ComparisonPage extends StatefulWidget {
   @override
-  _FilterState createState() => _FilterState();
+  _ComparisonPageState createState() => _ComparisonPageState();
 }
 
-class _FilterState extends State<Filter> {
+class _ComparisonPageState extends State<ComparisonPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DuoAppBar('맞춤형검색'),
+      appBar: DuoAppBar('비교분석'),
         body: Column(
           children: [
             Row(
               children: [
-                Text("x버튼을 누르면 이전페이지로 돌아갑니다."),
-                IconButton(
-                    icon: Icon(Icons.cancel_outlined),
-                    iconSize: 24,
-                    color: Colors.black54,
-                    onPressed: () {
-                      Navigator.pop(context);
-
-
-                    }),
               ],
             ),
 
@@ -33,7 +23,9 @@ class _FilterState extends State<Filter> {
             ),
 
 
-            Text("여기는 필터페이지")
+            Text("여기는 비교분석페이지")
+
+
 
 
           ],
