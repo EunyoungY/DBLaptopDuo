@@ -40,6 +40,7 @@ class _ProductInfoState extends State<ProductInfo> {
               Center(child: Text('MacBook Air', style: TextStyle(color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold))),
 
 
+
               IconButton(
                 icon: Icon(
                   isFavorite ? Icons.favorite : Icons.favorite_border,
