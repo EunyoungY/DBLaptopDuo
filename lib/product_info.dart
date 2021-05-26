@@ -217,6 +217,8 @@ class _ProductInfoState extends State<ProductInfo> {
     );
   }
 
+  List<bool> _selections =List.generate(2, (index) => false);
+
   Widget _popUpAddDrug(context) {
     return Container(
       //color: yellow,
@@ -232,24 +234,96 @@ class _ProductInfoState extends State<ProductInfo> {
             height: MediaQuery.of(context).size.height  ,
             child: Column(
               children: <Widget>[
-                IconButton(
-                    icon: Icon(Icons.laptop_chromebook),
-                    iconSize: 24,
-                    color: Colors.black54,
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) =>ComparisonPage() ));
-                    }),
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 10),
+                  padding: EdgeInsets.all(10),
+                  child: Text(
+                      '비교분석하기',
+                      style: TextStyle(
+                          fontSize: 20
+                      )
+                  ),
+                ),
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      ToggleButtons(
+                        color: Colors.black,
+                        selectedColor: Colors.white70,
+                        fillColor: Color(0xff421F90),
 
-                Text("비교하기버튼")
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Text("구매 상품으로 비교"),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Text("찜한 상품으로 비교"),
+                          ),
+                        ],
+
+                        isSelected: _selections,
+                        onPressed: (int index){
+                          setState(() {
+                            for(int buttonIndex = 0; buttonIndex < _selections.length; buttonIndex++){
+                              if(buttonIndex == index){
+                                _selections[buttonIndex] = true;
+                              } else{
+                                _selections[buttonIndex] = false;
+                              }
+                            }
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                          height: 150,
+                          width: 200,
+                          padding: EdgeInsets.all(25),
+                          child: Image.network(
+                            'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/macbook-air-silver-config-201810?wid=1078&hei=624&fmt=jpeg&qlt=80&.v=1603332212000',
+                          )),
+                      Container(
+                          padding: EdgeInsets.all(5),
+                          child:Column(
+                            children: <Widget>[
+                              Text(
+                                "Mac Air",
+                                style:TextStyle(fontSize: 15),
+                              ),
+                              SizedBox(height: 10,),
+                              Container(
+                                width: 150,
+                                child: OutlinedButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) =>ComparisonPage() ));
+                                    },
+                                    child: Text(
+                                      "비교하기",
+                                      style:TextStyle(color: Colors.black, fontSize: 13),
+                                    )
+                                ),
+                              ),
+                            ],
+                          )
+                      )
+                    ],
+                  ),
+                ),
+                Divider(thickness: 0.4, color: Colors.grey[400], ),
 
 
-
-
-
-             ],
+              ],
             ),
           ),
         ],
