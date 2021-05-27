@@ -114,6 +114,7 @@ class _ComparisonPageState extends State<ComparisonPage> {
                     child: Text(
                       'NT950QDB-KD71N',
                       style: TextStyle(
+                          fontWeight: FontWeight.bold,
                           fontSize: 14,
                           color: const Color(0xff2C2C2C)
                       ),
@@ -124,6 +125,7 @@ class _ComparisonPageState extends State<ComparisonPage> {
                     child: Text(
                       'NT950QDB-KD71N',
                       style: TextStyle(
+                          fontWeight: FontWeight.bold,
                           fontSize: 14,
                           color: const Color(0xff2C2C2C)
                       ),
@@ -148,6 +150,7 @@ class _ComparisonPageState extends State<ComparisonPage> {
                       child: Text(
                         'Windows 10 Home ',
                         style: TextStyle(
+                            fontWeight: FontWeight.bold,
                             fontSize: 14,
                             color: const Color(0xff2C2C2C)
                         ),
@@ -158,6 +161,7 @@ class _ComparisonPageState extends State<ComparisonPage> {
                       child: Text(
                         'Windows 10 Home ',
                         style: TextStyle(
+                            fontWeight: FontWeight.bold,
                             fontSize: 14,
                             color: const Color(0xff2C2C2C)
                         ),
@@ -182,6 +186,7 @@ class _ComparisonPageState extends State<ComparisonPage> {
                       child: Text(
                         'i7-1165G7',
                         style: TextStyle(
+                            fontWeight: FontWeight.bold,
                             fontSize: 14,
                             color: const Color(0xff2C2C2C)
                         ),
@@ -192,6 +197,7 @@ class _ComparisonPageState extends State<ComparisonPage> {
                       child: Text(
                         'i7-1165G7',
                         style: TextStyle(
+                            fontWeight: FontWeight.bold,
                             fontSize: 14,
                             color: const Color(0xff2C2C2C)
                         ),
@@ -216,6 +222,7 @@ class _ComparisonPageState extends State<ComparisonPage> {
                       child: Text(
                         '16 GB',
                         style: TextStyle(
+                            fontWeight: FontWeight.bold,
                             fontSize: 14,
                             color: const Color(0xff2C2C2C)
                         ),
@@ -226,6 +233,7 @@ class _ComparisonPageState extends State<ComparisonPage> {
                       child: Text(
                         '16 GB',
                         style: TextStyle(
+                            fontWeight: FontWeight.bold,
                             fontSize: 14,
                             color: const Color(0xff2C2C2C)
                         ),
@@ -250,6 +258,7 @@ class _ComparisonPageState extends State<ComparisonPage> {
                       child: Text(
                         '1 TB',
                         style: TextStyle(
+                            fontWeight: FontWeight.bold,
                             fontSize: 14,
                             color: const Color(0xff2C2C2C)
                         ),
@@ -260,6 +269,7 @@ class _ComparisonPageState extends State<ComparisonPage> {
                       child: Text(
                         '1 TB',
                         style: TextStyle(
+                            fontWeight: FontWeight.bold,
                             fontSize: 14,
                             color: const Color(0xff2C2C2C)
                         ),
@@ -284,6 +294,7 @@ class _ComparisonPageState extends State<ComparisonPage> {
                       child: Text(
                         '15.6inch',
                         style: TextStyle(
+                            fontWeight: FontWeight.bold,
                             fontSize: 14,
                             color: const Color(0xff2C2C2C)
                         ),
@@ -294,6 +305,7 @@ class _ComparisonPageState extends State<ComparisonPage> {
                       child: Text(
                         '15.6inch',
                         style: TextStyle(
+                            fontWeight: FontWeight.bold,
                             fontSize: 14,
                             color: const Color(0xff2C2C2C)
                         ),
@@ -318,6 +330,7 @@ class _ComparisonPageState extends State<ComparisonPage> {
                       child: Text(
                         '미스틱 네이비',
                         style: TextStyle(
+                            fontWeight: FontWeight.bold,
                             fontSize: 14,
                             color: const Color(0xff2C2C2C)
                         ),
@@ -328,6 +341,7 @@ class _ComparisonPageState extends State<ComparisonPage> {
                       child: Text(
                         '미스틱 네이비',
                         style: TextStyle(
+                            fontWeight: FontWeight.bold,
                             fontSize: 14,
                             color: const Color(0xff2C2C2C)
                         ),
@@ -352,6 +366,7 @@ class _ComparisonPageState extends State<ComparisonPage> {
                       child: Text(
                         '1.29kg',
                         style: TextStyle(
+                            fontWeight: FontWeight.bold,
                             fontSize: 14,
                             color: const Color(0xff2C2C2C)
                         ),
@@ -362,6 +377,7 @@ class _ComparisonPageState extends State<ComparisonPage> {
                       child: Text(
                         '1.29kg',
                         style: TextStyle(
+                            fontWeight: FontWeight.bold,
                             fontSize: 14,
                             color: const Color(0xff2C2C2C)
                         ),
