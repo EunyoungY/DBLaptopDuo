@@ -217,7 +217,8 @@ class _ProductInfoState extends State<ProductInfo> {
     );
   }
 
-  List<bool> _selections =List.generate(2, (index) => false);
+  //List<bool> _selections =List.generate(2, (index) => false);
+  List<bool> _selections = [false, true];
 
   Widget _popUpAddDrug(context) {
     return Container(
@@ -272,7 +273,6 @@ class _ProductInfoState extends State<ProductInfo> {
                           ),
                         ],
 
-                        isSelected: _selections,
                         onPressed: (int index){
                           setState(() {
                             for(int buttonIndex = 0; buttonIndex < _selections.length; buttonIndex++){
@@ -284,6 +284,7 @@ class _ProductInfoState extends State<ProductInfo> {
                             }
                           });
                         },
+                        isSelected: _selections,
                       ),
                     ],
                   ),
@@ -291,9 +292,10 @@ class _ProductInfoState extends State<ProductInfo> {
                 Container(
                   child: Row(
                     children: <Widget>[
+                      SizedBox(width: 5),
                       Container(
-                          height: 150,
-                          width: 200,
+                          height: 130,
+                          width: 180,
                           padding: EdgeInsets.all(25),
                           child: Image.network(
                             'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/macbook-air-silver-config-201810?wid=1078&hei=624&fmt=jpeg&qlt=80&.v=1603332212000',
@@ -304,11 +306,15 @@ class _ProductInfoState extends State<ProductInfo> {
                             children: <Widget>[
                               Text(
                                 "Mac Air",
-                                style:TextStyle(fontSize: 15),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                  color: const Color(0xff2C2C2C)
+                          ),
                               ),
                               SizedBox(height: 10,),
                               Container(
-                                width: 150,
+                                width: 190,
                                 child: OutlinedButton(
                                     onPressed: () {
                                       Navigator.push(
@@ -318,7 +324,7 @@ class _ProductInfoState extends State<ProductInfo> {
                                     },
                                     child: Text(
                                       "비교하기",
-                                      style:TextStyle(color: Colors.black, fontSize: 13),
+                                      style:TextStyle(color: const Color(0xff2C2C2C), fontSize: 13),
                                     )
                                 ),
                               ),
@@ -328,7 +334,7 @@ class _ProductInfoState extends State<ProductInfo> {
                     ],
                   ),
                 ),
-                Divider(thickness: 0.4, color: Colors.grey[400], ),
+                Divider(thickness: 0.4, color: Colors.grey[400]),
 
 
               ],
