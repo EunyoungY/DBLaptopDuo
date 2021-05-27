@@ -254,13 +254,21 @@ class _ProductInfoState extends State<ProductInfo> {
                         fillColor: Color(0xff421F90),
 
                         children: <Widget>[
-                          Padding(
+                          Container(
+                            width: 170,
                             padding: EdgeInsets.symmetric(horizontal: 16.0),
-                            child: Text("구매 상품으로 비교"),
+                            child: Text(
+                              "구매 상품으로 비교",
+                              textAlign: TextAlign.center,
+                            ),
                           ),
-                          Padding(
+                          Container(
+                            width: 170,
                             padding: EdgeInsets.symmetric(horizontal: 16.0),
-                            child: Text("찜한 상품으로 비교"),
+                            child: Text(
+                                "찜한 상품으로 비교",
+                                textAlign: TextAlign.center,
+                            ),
                           ),
                         ],
 
