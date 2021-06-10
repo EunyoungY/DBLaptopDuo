@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'filter.dart';
+import 'mysql_test2.dart';
 import 'product_info.dart';
 
 class CustomizingSearch extends StatefulWidget {
@@ -10,25 +11,51 @@ class CustomizingSearch extends StatefulWidget {
 class _CustomizingSearchState extends State<CustomizingSearch> {
   String dropdownValue = '낮은가격순';
   TextEditingController _searchController = TextEditingController();
+  var db = new Mysql();
+  var mn;
+
+  int i = 0;
 
   @override
   Widget build(BuildContext context) {
+    db.getConnection().then((conn) {
+      String sql = ('select C2 from dbfinal.model_name');
+      conn.query(sql).then((results) {
+        for(var row in results){
+          setState(() {
+            mn = row[0];
+          });
+        }
+      });
+      conn.close();
+    });
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
             SizedBox(height: 20),
-            Container(
-              width: 200,
-              height: 100,
-              child: TextFormField(
-                decoration: InputDecoration(
-                  hintText: ' 검색어를 입력하세요',
-                  hintStyle: TextStyle(fontSize: 15),
+            Row(
+              children: [
+                SizedBox(width: 80),
+                Container(
+                  width: 200,
+                  height: 100,
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      hintText: ' 검색어를 입력하세요',
+                      hintStyle: TextStyle(fontSize: 15),
+                    ),
+                    controller: _searchController,
+                    style: TextStyle(fontSize: 20, color: Colors.black),
+                  ),
                 ),
-                controller: _searchController,
-                style: TextStyle(fontSize: 20, color: Colors.black),
-              ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 30.0),
+                  child: IconButton(icon: Icon(Icons.search), onPressed:(){
+                  }),
+                )
+              ],
             ),
             Row(
              children: [
@@ -77,17 +104,7 @@ class _CustomizingSearchState extends State<CustomizingSearch> {
               ],
             ),
             SizedBox(height: 20),
-            // Container(
-            //   width: 300,
-            //   child: InkWell(
-            //       child: Image.network('https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/macbook-air-silver-config-201810?wid=1078&hei=624&fmt=jpeg&qlt=80&.v=1603332212000'),
-            //       onTap: () {
-            //         Navigator.push(
-            //             context,
-            //             MaterialPageRoute(
-            //                 builder: (BuildContext context) =>ProductInfo() ));
-            //       }),
-            // ),
+
         Container(
           child: GridView.builder(
             shrinkWrap: true,
@@ -117,7 +134,7 @@ class _CustomizingSearchState extends State<CustomizingSearch> {
                                               builder: (BuildContext context) =>ProductInfo() ));
                                     }),
                             ),
-                            Text('MacBook Air'),
+                            Container(width: 100,child: Text('${mn}', overflow: TextOverflow.ellipsis,)),
                             Text('1,166,600원', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                             Text('리뷰 27'),
                           ],
