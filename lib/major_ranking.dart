@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'duo_appbar.dart';
+import 'major_ranking_list.dart';
 import 'mysql.dart';
 
 class MajorRanking extends StatefulWidget {
@@ -26,16 +27,24 @@ class _MajorRankingState extends State<MajorRanking> {
       conn.close();
     });
 
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
         padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
           child: ListView.builder(
-            itemCount:10,
+            itemCount: myList.length,
           itemBuilder: (BuildContext context, int index) {
+              // var major = myList[i];
               return ListTile(
-                title: Container(width: 100,child: Text(myList[i++], overflow: TextOverflow.ellipsis,)),
+                title: Container(width: 100,child: Text(myList[index], overflow: TextOverflow.ellipsis,)),
+                onTap: () {
+                  // i=0;
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) =>  MajorRankingPage(myList[index])),
+                  );
+
+                },
               );
             // return PersonTile(people[index-1]);
           },

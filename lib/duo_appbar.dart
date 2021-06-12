@@ -15,7 +15,7 @@ class DuoAppBar extends StatelessWidget with PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    if(title == '상세스펙' || title == '마이페이지' || title == '비교분석' ) {
+    if(title == '상세스펙' || title == '마이페이지' || title == '비교분석' || title == '전공별랭킹') {
 
       return AppBar(
         elevation: 0.5,
@@ -43,7 +43,7 @@ class DuoAppBar extends StatelessWidget with PreferredSizeWidget {
         elevation: 0.5,
         titleSpacing: 8,
         title: Text(
-            title,
+            title=="랭킹"? "전공별랭킹": title,
             style: TextStyle(color: Colors.black87, fontSize: 16.5)
         ),
         centerTitle: true,
