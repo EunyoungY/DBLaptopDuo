@@ -16,7 +16,6 @@ class _MajorRankingState extends State<MajorRanking> {
 
   @override
   Widget build(BuildContext context) {
-    int i=0;
     db.getConnection().then((conn) {
       String sql = ('select major from dbfinal.user');
       conn.query(sql).then((results) {

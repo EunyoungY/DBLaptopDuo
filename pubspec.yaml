@@ -37,6 +37,7 @@ dev_dependencies:
   carousel_slider: ^3.0.0
   grouped_buttons: ^1.0.4
   mysql1: ^0.19.2
+  intl: ^0.17.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
