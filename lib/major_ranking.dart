@@ -21,7 +21,10 @@ class _MajorRankingState extends State<MajorRanking> {
       String sql = ('select major from dbfinal.user');
       conn.query(sql).then((results) {
         for(var row in results){
+          setState(() {
             myList.add(row[0]);
+          });
+
         }
       });
       conn.close();
@@ -36,7 +39,7 @@ class _MajorRankingState extends State<MajorRanking> {
           itemBuilder: (BuildContext context, int index) {
               // var major = myList[i];
               return ListTile(
-                title: Container(width: 100,child: Text(myList[index], overflow: TextOverflow.ellipsis,)),
+                title: Container(width: 100,child: Text(myList[index]??"NO", overflow: TextOverflow.ellipsis,)),
                 onTap: () {
                   // i=0;
                   Navigator.push(

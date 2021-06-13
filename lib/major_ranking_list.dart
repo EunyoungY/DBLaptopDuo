@@ -79,15 +79,15 @@ class _MajorRankingPageState extends State<MajorRankingPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                      icon: Icon(Icons.arrow_back_ios),
-                      iconSize: 24,
-                      color: Colors.black54,
-                      onPressed: () {
-                        setState(() {
-                          // _selectedIndex = 0;
-                        });
-                      }),
+                  // IconButton(
+                  //     icon: Icon(Icons.arrow_back_ios),
+                  //     iconSize: 24,
+                  //     color: Colors.black54,
+                  //     onPressed: () {
+                  //       setState(() {
+                  //         // _selectedIndex = 0;
+                  //       });
+                  //     }),
                   Center(
                     child: Container(
                         height: 200,
@@ -96,15 +96,15 @@ class _MajorRankingPageState extends State<MajorRankingPage> {
                           'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/macbook-air-silver-config-201810?wid=1078&hei=624&fmt=jpeg&qlt=80&.v=1603332212000',
                         )),
                   ),
-                  IconButton(
-                      icon: Icon(Icons.arrow_forward_ios_outlined),
-                      iconSize: 24,
-                      color: Colors.black54,
-                      onPressed: () {
-                        setState(() {
-                          // _selectedIndex = 0;
-                        });
-                      }),
+                  // IconButton(
+                  //     icon: Icon(Icons.arrow_forward_ios_outlined),
+                  //     iconSize: 24,
+                  //     color: Colors.black54,
+                  //     onPressed: () {
+                  //       setState(() {
+                  //         // _selectedIndex = 0;
+                  //       });
+                  //     }),
                 ],
               ),
             ),
