@@ -24,7 +24,7 @@ class _BottomBarState extends State<BottomBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _selectedIndex == 0?  DuoAppBar('전공별랭킹') :
+      appBar: _selectedIndex == 0?  DuoAppBar('랭킹') :
       _selectedIndex == 1? DuoAppBar('맞춤형검색') : DuoAppBar('찜한상품'),
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomAppBar(
