@@ -13,6 +13,7 @@ class _CartState extends State<Cart> {
   var db =  Mysql();
   var cnt_cart = 0;
   var myList = [];
+  var laptop_image = [];
   var price = [];
   var os = [];
   var processor = [];
@@ -21,14 +22,26 @@ class _CartState extends State<Cart> {
 
   @override
   Widget build(BuildContext context) {
-    cnt_cart = 0;
+    // cnt_cart = 0;
     db.getConnection().then((conn) {
         String sql = ('select model_num from dbfinal.cart where user_num = 1');
         conn.query(sql).then((results) {
           for (var row in results) {
             setState(() {
-              cnt_cart++;
+              cnt_cart=results.length;
             });
+          }
+        });
+
+        sql = ('select image_url from dbfinal.cart, dbfinal.laptop_image where user_num = 1 and dbfinal.cart.model_num=dbfinal.laptop_image.model_num');
+        conn.query(sql).then((results) {
+          for(var row in results){
+            setState(() {
+              var temp = row[0].replaceAll('http', 'https');
+              laptop_image.add(temp);
+              // print(row[0].replaceAll('http', 'https'));
+            });
+
           }
         });
 
@@ -83,29 +96,32 @@ class _CartState extends State<Cart> {
     });
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: CarouselSlider.builder(
         options: CarouselOptions(
           // autoPlay: true,
+          viewportFraction: 0.8,
           aspectRatio: 0.56,
           enlargeCenterPage: true,
-          enlargeStrategy: CenterPageEnlargeStrategy.height,
+          // enlargeStrategy: CenterPageEnlargeStrategy.height,
         ),
         itemCount: cnt_cart,
-        itemBuilder: (context, itemIndex, realIndex)
-        {
-          return  Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+        itemBuilder: (context, itemIndex, realIndex) {
+          return  ListView(
+            // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               SizedBox(height: 20,),
-              Image.network('https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/macbook-air-silver-config-201810?wid=1078&hei=624&fmt=jpeg&qlt=80&.v=1603332212000',),
-              SizedBox(height: 30,),
+              AspectRatio(
+                aspectRatio: 1.3,
+                child: laptop_image.isEmpty? Container(): Image.network(laptop_image[itemIndex]),
+              ),
+              SizedBox(height: 10,),
 
               Padding(
                 padding: const EdgeInsets.fromLTRB(25,0,0,0),
                 child: Center(child: Text(myList.isEmpty? ' ':myList[itemIndex], style: TextStyle(color: const Color(0xff2C2C2C), fontSize: 18, fontWeight: FontWeight.bold)),),
               ),
-              SizedBox(height: 60,),
+              SizedBox(height: 50,),
 
               Text('최저가', style: TextStyle(color: const Color(0xff2C2C2C), fontSize: 14, fontWeight: FontWeight.bold)),
               SizedBox(height: 4),
@@ -125,7 +141,6 @@ class _CartState extends State<Cart> {
               Text('저장장치', style: TextStyle(color: const Color(0xff2C2C2C), fontSize: 14, fontWeight: FontWeight.bold)),
               SizedBox(height: 4),
               Text(ssd.isEmpty? ' ':ssd[itemIndex].toString()??" ", style: TextStyle(color: const Color(0xff666666), fontSize: 14)),
-              SizedBox(height: 13),
             ],
           );
           // return Padding(
