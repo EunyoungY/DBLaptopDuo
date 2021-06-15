@@ -131,7 +131,8 @@ class _CustomizingSearchState extends State<CustomizingSearch> {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (BuildContext context) =>ProductInfo() ));
+                                //ToDo: String model_num, String user_num 넘겨주세요~!
+                                              builder: (BuildContext context) =>ProductInfo("1", "1") ));
                                     }),
                             ),
                             Container(width: 100,child: Text('${mn}', overflow: TextOverflow.ellipsis,)),
