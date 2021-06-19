@@ -26,7 +26,7 @@ class _ProductInfoState extends State<ProductInfo> {
   //product info
   var image = '';
   var model_name = "unknown";
-  //bool in_cart = false;   //isFavorite
+  var in_cart = 0;   //isFavorite
   var manufacturer = "unknown";
   var date = "unknown";
   var price = "0";
@@ -72,7 +72,7 @@ class _ProductInfoState extends State<ProductInfo> {
             os = row[7];
             resolution = row[8];
             usage = row[9];
-            image = row[10];
+            image = row[10].replaceAll('http', 'https');
 
             thick = row[11].toString();
             size = row[12].toString();
@@ -108,8 +108,18 @@ class _ProductInfoState extends State<ProductInfo> {
           setState(() {
             cart_image_num = results.length;
             cart_model_name.add(row[0]);
-            cart_image.add(row[1]);
+            var temp = row[1].replaceAll('http', 'https');
+            cart_image.add(temp);
             cart_model_num.add(row[2]);
+          });
+        }
+      });
+
+      sql = ('select model_num from dbfinal.cart where dbfinal.cart.model_num = ' + model_num.toString());
+      conn.query(sql).then((results) {
+        for (var row in results) {
+          setState(() {
+            in_cart = results.length;
           });
         }
       });
@@ -118,8 +128,10 @@ class _ProductInfoState extends State<ProductInfo> {
     });
 
 
+    bool isFavorite;
 
-    bool isFavorite = false;
+    if(in_cart == 0) isFavorite = false;
+    else isFavorite = true;
 
     return Scaffold(
         appBar: DuoAppBar('상세스펙'),
@@ -159,12 +171,42 @@ class _ProductInfoState extends State<ProductInfo> {
               IconButton(
                 icon: Icon(
                   isFavorite ? Icons.favorite : Icons.favorite_border,
-                  color: Colors.redAccent[100],),
+                  color: Colors.redAccent[100],
+                ),
 
                 onPressed: () => {
                   setState(() {
                     isFavorite = !isFavorite;
-                    print(isFavorite);
+                    //print(isFavorite);
+
+                    if(isFavorite) {
+                      db.getConnection().then((conn) {
+                          String sql = ('insert into dbfinal.cart values(' + user_num + ', ' + model_num + ')');
+                          conn.query(sql).then((results) {
+                            for (var row in results) {
+                              setState(() {
+                                //print("insert success");
+                              });
+                            }
+                          });
+                        conn.close();
+                      });
+                      _cartDialog("찜한 상품에 추가되었습니다.");
+                    }else{
+                      db.getConnection().then((conn) {
+                        String sql = ('delete from dbfinal.cart where model_num=' + model_num +' and user_num = ' + user_num );
+                        conn.query(sql).then((results) {
+                          for (var row in results) {
+                            setState(() {
+                              //print("delete success");
+                            });
+                          }
+                        });
+                        conn.close();
+                      });
+                      _cartDialog("찜한 상품에 삭제되었습니다.");
+                    }
+                    //_cartDialog();
                   })
                 },
 
@@ -412,16 +454,6 @@ class _ProductInfoState extends State<ProductInfo> {
                 ),
 
                 for(int i = 0; i < cart_image_num; i++) _buildTile(model_num, cart_model_num[i].toString(), cart_model_name[i], cart_image[i]),
-                /*
-                _buildTile("Mac Air", 'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/macbook-air-silver-config-201810?wid=1078&hei=624&fmt=jpeg&qlt=80&.v=1603332212000'),
-                _buildTile("Mac Pro", 'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/macbook-air-silver-config-201810?wid=1078&hei=624&fmt=jpeg&qlt=80&.v=1603332212000'),
-                _buildTile("Mac Air", 'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/macbook-air-silver-config-201810?wid=1078&hei=624&fmt=jpeg&qlt=80&.v=1603332212000'),
-                _buildTile('Mac Air4', 'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/macbook-air-silver-config-201810?wid=1078&hei=624&fmt=jpeg&qlt=80&.v=1603332212000'),
-                _buildTile("Mac Air5", 'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/macbook-air-silver-config-201810?wid=1078&hei=624&fmt=jpeg&qlt=80&.v=1603332212000'),
-                _buildTile("Mac Air6", 'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/macbook-air-silver-config-201810?wid=1078&hei=624&fmt=jpeg&qlt=80&.v=1603332212000'),
-                _buildTile("Mac Air7", 'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/macbook-air-silver-config-201810?wid=1078&hei=624&fmt=jpeg&qlt=80&.v=1603332212000'),
-                _buildTile("Mac Air8", 'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/macbook-air-silver-config-201810?wid=1078&hei=624&fmt=jpeg&qlt=80&.v=1603332212000'),
-                    */
                     ],
                 ).toList(),
     )
@@ -467,6 +499,26 @@ class _ProductInfoState extends State<ProductInfo> {
             )
         ),
       ),
+    );
+  }
+
+  void _cartDialog(String dia_content) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Cart"),
+          content: Text(dia_content),
+          actions: <Widget>[
+            TextButton(
+              child: Text("Close"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )
+          ]
+        );
+      }
     );
   }
 
