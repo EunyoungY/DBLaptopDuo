@@ -73,7 +73,7 @@ class _ComparisonPageState extends State<ComparisonPage> {
             os_m1 = row[7];
             resolution_m1 = row[8];
             usage_m1 = row[9];
-            image_m1 = row[10];
+            image_m1 = row[10].replaceAll('http', 'https');
 
             thick_m1 = row[11].toString();
             size_m1 = row[12].toString();
@@ -96,7 +96,7 @@ class _ComparisonPageState extends State<ComparisonPage> {
             os_m2 = row[7];
             resolution_m2 = row[8];
             usage_m2 = row[9];
-            image_m2 = row[10];
+            image_m2 = row[10].replaceAll('http', 'https');
 
             thick_m2 = row[11].toString();
             size_m2 = row[12].toString();
