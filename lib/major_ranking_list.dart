@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:intl/intl.dart';
 import 'duo_appbar.dart';
 import 'mysql.dart';
 
@@ -20,43 +20,36 @@ class _MajorRankingPageState extends State<MajorRankingPage> {
   var db =  Mysql();
   var mail;
   var laptop_info = [];
+  var model_name = [];
+  var os_name = [];
+  var processor_name = [];
+  var storage_capacity= [];
+  var price = [];
 
-  // var results= await conn.query(
-  // 'select name, email, age from users where id = ?', [result.insertId]);
-  // for (var row in results) {
-  // print('Name: ${row[0]}, email: ${row[1]} age: ${row[2]}');
-  // }
 
+  var f = NumberFormat('###,###,###,###');
 
   @override
   Widget build(BuildContext context) {
     db.getConnection().then((conn) {
-
-      // String sql = ('select model_name from dbfinal.major_laptop_max where major=${widget.major}');
-      String sql = ('select * from dbfinal.major_laptop_max');
-      // String sql = ('select model_num from dbfinal.cart where user_num = 1');
+      String sql = ('select * from dbfinal.major_laptop_max' );
       conn.query(sql).then((results) {
         for(var row in results){
           setState(() {
-            laptop_info.add(row[0]);
+            if(row[0] == widget.major) {
+              laptop_info.add(row[3]);
+              model_name.add(row[2]);
+              os_name.add(row[10]);
+              processor_name.add(row[6]);
+              storage_capacity.add(row[9]);
+              price.add(row[3]);
+            }
           });
-
         }
       });
       conn.close();
     });
 
-    // db.getConnection().then((conn) {
-    //   String sql = 'select C2 from laptopDUO.laptopDUO_model_name';
-    //   conn.query(sql).then((results) {
-    //     for(var row in results){
-    //       setState(() {
-    //         mail = row[0];
-    //       });
-    //     }
-    //   });
-    //   conn.close();
-    // });
 
     return Scaffold(
 
@@ -95,15 +88,6 @@ class _MajorRankingPageState extends State<MajorRankingPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // IconButton(
-                  //     icon: Icon(Icons.arrow_back_ios),
-                  //     iconSize: 24,
-                  //     color: Colors.black54,
-                  //     onPressed: () {
-                  //       setState(() {
-                  //         // _selectedIndex = 0;
-                  //       });
-                  //     }),
                   Center(
                     child: Container(
                         height: 200,
@@ -112,15 +96,6 @@ class _MajorRankingPageState extends State<MajorRankingPage> {
                           'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/macbook-air-silver-config-201810?wid=1078&hei=624&fmt=jpeg&qlt=80&.v=1603332212000',
                         )),
                   ),
-                  // IconButton(
-                  //     icon: Icon(Icons.arrow_forward_ios_outlined),
-                  //     iconSize: 24,
-                  //     color: Colors.black54,
-                  //     onPressed: () {
-                  //       setState(() {
-                  //         // _selectedIndex = 0;
-                  //       });
-                  //     }),
                 ],
               ),
             ),
@@ -134,34 +109,33 @@ class _MajorRankingPageState extends State<MajorRankingPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
 
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(25,0,25,0),
+                    child: Center(child: Text(model_name.isEmpty? ' ':model_name[0], style: TextStyle(color: const Color(0xff2C2C2C), fontSize: 18, fontWeight: FontWeight.bold)),),
+                  ),
 
-                  Container(width: 100,child: Text(laptop_info.isEmpty? ' ': laptop_info[0])),
-                  // Container(width: 100,child: Text(laptop_info.isEmpty? ' ': laptop_info[0], overflow: TextOverflow.ellipsis,)),
-
-                  // Center(child: Text('${mail}', style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold))),
-
-                  // Text('${mail}', style: TextStyle(color: const Color(0xff2C2C2C), fontSize: 14, fontWeight: FontWeight.bold)),
-
+                  // Container(width: 100,child: Text(laptop_info.isEmpty? ' ': laptop_info[0])),
 
                   SizedBox(height: 30),
                   Text('최저가', style: TextStyle(color: const Color(0xff2C2C2C), fontSize: 14, fontWeight: FontWeight.bold)),
                   SizedBox(height: 4),
-                  Text('1,500,000', style: TextStyle(color: const Color(0xff666666), fontSize: 14)),
+                  // Text(price.toString().isEmpty?' ': price[0] , style: TextStyle(color: const Color(0xff666666), fontSize: 14)),
+                  Text(price.isEmpty? ' ':f.format(price[0]).toString()+"원", style: TextStyle(color: const Color(0xff666666), fontSize: 14)),
                   SizedBox(height: 10),
 
                   Text('운영체제', style: TextStyle(color: const Color(0xff2C2C2C), fontSize: 14, fontWeight: FontWeight.bold)),
                   SizedBox(height: 4),
-                  Text('Windows 10 Home ', style: TextStyle(color: const Color(0xff666666), fontSize: 14)),
+                  Text(os_name.isEmpty?' ': os_name[0] , style: TextStyle(color: const Color(0xff666666), fontSize: 14)),
                   SizedBox(height: 10),
 
                   Text('프로세서', style: TextStyle(color: const Color(0xff2C2C2C), fontSize: 14, fontWeight: FontWeight.bold)),
                   SizedBox(height: 4),
-                  Text('i7-1165G7 Processor', style: TextStyle(color: const Color(0xff666666), fontSize: 14)),
+                  Text(processor_name.isEmpty? ' ': processor_name[0], style: TextStyle(color: const Color(0xff666666), fontSize: 14)),
                   SizedBox(height: 10),
 
                   Text('저장장치', style: TextStyle(color: const Color(0xff2C2C2C), fontSize: 14, fontWeight: FontWeight.bold)),
                   SizedBox(height: 4),
-                  Text('1 TB', style: TextStyle(color: const Color(0xff666666), fontSize: 14)),
+                  Text(storage_capacity.isEmpty? ' ': storage_capacity[0], style: TextStyle(color: const Color(0xff666666), fontSize: 14)),
                   SizedBox(height: 10),
                 ],
               ),
