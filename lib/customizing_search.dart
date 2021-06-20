@@ -24,10 +24,10 @@ class _CustomizingSearchState extends State<CustomizingSearch> {
   var laptop_price_desc = [];
   var image_url_desc = [];
   var review_count_desc = [];
+  bool asc = true;
 
   @override
   Widget build(BuildContext context) {
-    bool asc = true;
     int a = 0;
     int b = 0;
     int c = 0;
@@ -90,60 +90,60 @@ class _CustomizingSearchState extends State<CustomizingSearch> {
     //asc
     //---------------
     //desc
-    // db.getConnection().then((conn) {
-    //   String sql = ('select model_num from dbfinal.laptop_image_review_desc');
-    //   conn.query(sql).then((results) {
-    //     for(var row in results){
-    //       setState(() {
-    //         model_num_desc.add(row[0].toString());
-    //       });
-    //     }
-    //   });
-    //   conn.close();
-    // });
-    // db.getConnection().then((conn) {
-    //   String sql = ('select model_name from dbfinal.laptop_image_review_desc');
-    //   conn.query(sql).then((results) {
-    //     for(var row in results){
-    //       setState(() {
-    //         model_name_desc.add(row[0]);
-    //       });
-    //     }
-    //   });
-    //   conn.close();
-    // });db.getConnection().then((conn) {
-    //   String sql = ('select laptop_price, review_count from dbfinal.laptop_image_review_desc');
-    //   conn.query(sql).then((results) {
-    //     for(var row in results){
-    //       setState(() {
-    //         laptop_price_desc.add(row[0].toString());
-    //       });
-    //     }
-    //   });
-    //   conn.close();
-    // });db.getConnection().then((conn) {
-    //   String sql = ('select review_count from dbfinal.laptop_image_review_desc');
-    //   conn.query(sql).then((results) {
-    //     for(var row in results){
-    //       setState(() {
-    //         review_count_desc.add(row[0].toString());
-    //       });
-    //     }
-    //   });
-    //   conn.close();
-    // });
-    // db.getConnection().then((conn) {
-    //   String sql = ('select image_url from dbfinal.laptop_image_review_desc');
-    //   conn.query(sql).then((results) {
-    //     for(var row in results){
-    //       var temp = row[0].replaceAll('http','https');
-    //       setState(() {
-    //         image_url_desc.add(temp);
-    //       });
-    //     }
-    //   });
-    //   conn.close();
-    // });
+    db.getConnection().then((conn) {
+      String sql = ('select model_num from dbfinal.laptop_image_review_desc');
+      conn.query(sql).then((results) {
+        for(var row in results){
+          setState(() {
+            model_num_desc.add(row[0].toString());
+          });
+        }
+      });
+      conn.close();
+    });
+    db.getConnection().then((conn) {
+      String sql = ('select model_name from dbfinal.laptop_image_review_desc');
+      conn.query(sql).then((results) {
+        for(var row in results){
+          setState(() {
+            model_name_desc.add(row[0]);
+          });
+        }
+      });
+      conn.close();
+    });db.getConnection().then((conn) {
+      String sql = ('select laptop_price, review_count from dbfinal.laptop_image_review_desc');
+      conn.query(sql).then((results) {
+        for(var row in results){
+          setState(() {
+            laptop_price_desc.add(row[0].toString());
+          });
+        }
+      });
+      conn.close();
+    });db.getConnection().then((conn) {
+      String sql = ('select review_count from dbfinal.laptop_image_review_desc');
+      conn.query(sql).then((results) {
+        for(var row in results){
+          setState(() {
+            review_count_desc.add(row[0].toString());
+          });
+        }
+      });
+      conn.close();
+    });
+    db.getConnection().then((conn) {
+      String sql = ('select image_url from dbfinal.laptop_image_review_desc');
+      conn.query(sql).then((results) {
+        for(var row in results){
+          var temp = row[0].replaceAll('http','https');
+          setState(() {
+            image_url_desc.add(temp);
+          });
+        }
+      });
+      conn.close();
+    });
 
 
     return Scaffold(
@@ -197,8 +197,7 @@ class _CustomizingSearchState extends State<CustomizingSearch> {
                   onChanged: (String newValue) {
                     setState(() {
                       dropdownValue = newValue;
-                      asc == true ? asc = false : asc = true;
-                      asc == false ? asc = true : asc = false;
+                      orderPrice(newValue);
                       a=0;b=0;c=0;d=0;e=0;
                     });
                   },
@@ -227,7 +226,7 @@ class _CustomizingSearchState extends State<CustomizingSearch> {
 
             Divider(thickness: 2,),
             SizedBox(height: 20),
-        // asc == true ?
+         asc == true ?
         Container(
           child: GridView.builder(
             shrinkWrap: true,
@@ -254,7 +253,7 @@ class _CustomizingSearchState extends State<CustomizingSearch> {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (BuildContext context) =>ProductInfo(model_num[0], "1") ));
+                                              builder: (BuildContext context) =>ProductInfo(model_num[index], "1") ));
                                     }),
                             ),
                             Container(width : 100, child: Text( model_name[c++], overflow: TextOverflow.ellipsis)),
@@ -268,55 +267,64 @@ class _CustomizingSearchState extends State<CustomizingSearch> {
               );
             },
           ),
-         ) //:
-        // Container(
-        //   child: GridView.builder(
-        //     shrinkWrap: true,
-        //     physics: NeverScrollableScrollPhysics(),
-        //     itemCount: 50,
-        //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,childAspectRatio: 1,),
-        //     itemBuilder: (context, index){
-        //       return Card(
-        //         margin: EdgeInsets.all(4.0),
-        //         child: Padding(
-        //             padding: const EdgeInsets.only(left: 12.0, top: 6.0, bottom: 2.0),
-        //             child:Row(
-        //               crossAxisAlignment: CrossAxisAlignment.start,
-        //               children: [
-        //                 Text('${index+1}', style: TextStyle(fontSize: 15, color: Colors.black),),
-        //                 Column(
-        //                   children: [
-        //                     Container(
-        //                       width: 150,
-        //                       height: 100,
-        //                       child: InkWell(
-        //                           child: Image.network(image_url_desc[a++]),//'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/macbook-air-silver-config-201810?wid=1078&hei=624&fmt=jpeg&qlt=80&.v=1603332212000'),
-        //                           onTap: () {
-        //                             Navigator.push(
-        //                                 context,
-        //                                 MaterialPageRoute(
-        //                                     builder: (BuildContext context) =>ProductInfo(model_num_desc[b++], "1") ));
-        //                           }),
-        //                     ),
-        //                     Container(width : 100, child: Text( model_name_desc[c++], overflow: TextOverflow.ellipsis)),
-        //                     Text('${laptop_price_desc[d++]}원', overflow: TextOverflow.ellipsis, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-        //                     Text('리뷰 ${review_count_desc[e++]}',overflow: TextOverflow.ellipsis,),
-        //                   ],
-        //                 ),
-        //               ],
-        //             )
-        //         ),
-        //       );
-        //     },
-        //   ),
-        // ),
+         ) :
+        Container(
+          child: GridView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: 50,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,childAspectRatio: 1,),
+            itemBuilder: (context, index){
+              return Card(
+                margin: EdgeInsets.all(4.0),
+                child: Padding(
+                    padding: const EdgeInsets.only(left: 12.0, top: 6.0, bottom: 2.0),
+                    child:Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('${index+1}', style: TextStyle(fontSize: 15, color: Colors.black),),
+                        Column(
+                          children: [
+                            Container(
+                              width: 150,
+                              height: 100,
+                              child: InkWell(
+                                  child: Image.network(image_url_desc[a++]),//'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/macbook-air-silver-config-201810?wid=1078&hei=624&fmt=jpeg&qlt=80&.v=1603332212000'),
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (BuildContext context) =>ProductInfo(model_num_desc[index], "1") ));
+                                  }),
+                            ),
+                            Container(width : 100, child: Text( model_name_desc[c++], overflow: TextOverflow.ellipsis)),
+                            Text('${laptop_price_desc[d++]}원', overflow: TextOverflow.ellipsis, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                            Text('리뷰 ${review_count_desc[e++]}',overflow: TextOverflow.ellipsis,),
+                          ],
+                        ),
+                      ],
+                    )
+                ),
+              );
+            },
+          ),
+        ),
           ],
         ),
       )
     );
   }
+  void orderPrice(String value) {
+    switch (value) {
+      case '낮은가격순':
+        asc = true;
+        break;
+      case '높은가격순':
+        asc = false;
+        break;
+    }
+  }
 }
-
 
 class DataSearch extends SearchDelegate<String>{
   final model = [];
@@ -341,19 +349,7 @@ class DataSearch extends SearchDelegate<String>{
 
   @override
   Widget buildResults(BuildContext context) {
-    int i = 0;
-    db.getConnection().then((conn) {
-      String sql = ('select model_num from dbfinal.model_name');
-      conn.query(sql).then((results) {
-        for(var row in results){
-          //setState(() {
-          model_num.add(row[0].toString());
-          //});
-        }
-      });
-      conn.close();
-    });
-    return ProductInfo('6','1');
+    //return ProductInfo(model_num[index],'1');
   }
 
   @override
@@ -369,12 +365,28 @@ class DataSearch extends SearchDelegate<String>{
       });
       conn.close();
     });
+    db.getConnection().then((conn) {
+      String sql = ('select model_num from dbfinal.model_name');
+      conn.query(sql).then((results) {
+        for(var row in results){
+          //setState(() {
+          model_num.add(row[0].toString());
+          //});
+        }
+      });
+      conn.close();
+    });
 
     final suggestionList = query.isEmpty? recentmodel:model.where((p)=>p.startsWith(query)).toList();
 
     return ListView.builder(
       itemBuilder: (context, index) => ListTile(
-        onTap: (){showResults(context);},
+        onTap: (){//showResults(context);
+          Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (BuildContext context) =>ProductInfo(model_num[index], "1") ));
+        },
         title: RichText(text:TextSpan(text:suggestionList[index].substring(0,query.length),
             style: TextStyle(color: Colors.black,fontWeight:FontWeight.bold),
         children: [TextSpan(
