@@ -17,7 +17,7 @@ class _MajorRankingState extends State<MajorRanking> {
   @override
   Widget build(BuildContext context) {
     db.getConnection().then((conn) {
-      String sql = ('select major from dbfinal.user');
+      String sql = ('select major_name from dbfinal.major_spec');
       conn.query(sql).then((results) {
         for(var row in results){
           setState(() {
@@ -34,11 +34,11 @@ class _MajorRankingState extends State<MajorRanking> {
       body: Padding(
         padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
           child: ListView.builder(
-            itemCount: myList.length,
+            itemCount: 11,
           itemBuilder: (BuildContext context, int index) {
               // var major = myList[i];
               return ListTile(
-                title: Container(width: 100,child: Text(myList[index]??"NO", overflow: TextOverflow.ellipsis,)),
+                title: Container(width: 100,child: Text(myList.isEmpty? ' ': myList[index], overflow: TextOverflow.ellipsis,)),
                 onTap: () {
                   // i=0;
                   Navigator.push(
