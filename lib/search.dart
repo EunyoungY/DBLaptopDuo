@@ -232,3 +232,98 @@
 //     );
 //   }
 // }
+import 'package:flutter/material.dart';
+
+class SubmitRequest extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _SubmitRequest();
+  }
+}
+
+class _SubmitRequest extends State<SubmitRequest> {
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+        drawer: Drawer(
+          child: Container(
+            color: Colors.black54,
+            child: ListView(
+              padding: EdgeInsets.only(top: 40.0),
+              children: <Widget>[
+                ListTile(
+                  title: Text('Dashboard'),
+                ),
+                ListTile(
+                  title: Text('Submit Reports'),
+                ),
+                ListTile(
+                  title: Text('Inbox Requests'),
+                ),
+              ],
+            ),
+          ),
+        ),
+        appBar: AppBar(
+          backgroundColor: Colors.blue,
+          leading: IconButton(icon: Icon(Icons.menu), onPressed: () {}),
+          actions: <Widget>[
+            //    IconButton(icon: Icon(Icons.search), onPressed: () {}),
+            IconButton(icon: Icon(Icons.help), onPressed: () {}),
+          ],
+          bottom: PreferredSize(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0.0, 0.0, 15.0, 16.0),
+              child: Container(
+                margin: EdgeInsets.only(left: 16.0),
+                child: TextField(
+                  decoration: new InputDecoration(
+                      suffixIcon: IconButton(
+                          icon: Icon(Icons.search),
+                          onPressed: () {
+                            debugPrint('222');
+                          }),
+                      border: new OutlineInputBorder(
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(50.0),
+                        ),
+                      ),
+                      filled: true,
+                      hintStyle: new TextStyle(color: Colors.grey[800]),
+                      hintText: "Search",
+                      fillColor: Colors.white),
+                ),
+              ),
+            ),
+            preferredSize: Size(0.0, 80.0),
+          ),
+        ),
+        body: Scaffold(
+            body: ListView.builder(
+//              separatorBuilder: (context, int) {
+//                return Divider(color: Colors.black,);
+//              },
+              // shrinkWrap: true,
+              itemBuilder: (BuildContext context, int index) {
+                return GridView.count(
+                  shrinkWrap: true,
+                  crossAxisCount: 4,
+                  childAspectRatio: 1.0,
+                  children: List.generate(6, (index) {
+                    return GridTile(
+                      child: new Card(
+                        color: Colors.blue.shade100,
+                        child: new Center(
+                          child: new Text('Exterior $index'),
+                        ),
+                      ),
+                    );
+                  }),
+                );
+              },
+              itemCount: 4,
+            )
+        )
+    );
+  }
+}
