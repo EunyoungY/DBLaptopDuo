@@ -45,14 +45,21 @@ class _ProductInfoState extends State<ProductInfo> {
   var pro_review_num = 0;  //number of the product review
   var user_name = [];
   var major = [];
-  //var rating = [];
+  var rating = [];
   var review_content = [];
+  var last_review_num = 0;
 
   //popup
   var cart_image_num = 0;
   var cart_model_name = [];
   var cart_image = [];
   var cart_model_num =[];
+
+  var my_rating = 1;
+  var my_review_num = 1;
+  var isFavorite = true;
+
+  final reviewController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -90,14 +97,15 @@ class _ProductInfoState extends State<ProductInfo> {
         }
       });
 
-      sql = ('select user_name, major, review_content from dbfinal.user natural join dbfinal.review where dbfinal.review.model_num = ' + model_num);
+      sql = ('select user_name, major, rating, review_content from dbfinal.user natural join dbfinal.review where dbfinal.review.model_num = ' + model_num);
       conn.query(sql).then((results) {
         for (var row in results) {
           setState(() {
             pro_review_num = results.length;
             user_name.add(row[0]);
             major.add(row[1]);
-            review_content.add(row[2]);
+            rating.add(row[2]);
+            review_content.add(row[3]);
           });
         }
       });
@@ -124,14 +132,24 @@ class _ProductInfoState extends State<ProductInfo> {
         }
       });
 
+      sql = sql = ('select max(review_num) from dbfinal.review');
+      conn.query(sql).then((results) {
+        for (var row in results) {
+          setState(() {
+            last_review_num = row[0];
+          });
+        }
+      });
+
       conn.close();
     });
 
 
-    bool isFavorite;
+    my_review_num = last_review_num + 1;
 
     if(in_cart == 0) isFavorite = false;
     else isFavorite = true;
+
 
     return Scaffold(
         appBar: DuoAppBar('상세스펙'),
@@ -156,6 +174,7 @@ class _ProductInfoState extends State<ProductInfo> {
                 ),
               ),
 
+
               Center(
                   child: Text(
                       model_name,
@@ -174,7 +193,7 @@ class _ProductInfoState extends State<ProductInfo> {
                   color: Colors.redAccent[100],
                 ),
 
-                onPressed: () => {
+                onPressed: () {
                   setState(() {
                     isFavorite = !isFavorite;
                     //print(isFavorite);
@@ -183,31 +202,33 @@ class _ProductInfoState extends State<ProductInfo> {
                       db.getConnection().then((conn) {
                           String sql = ('insert into dbfinal.cart values(' + user_num + ', ' + model_num + ')');
                           conn.query(sql).then((results) {
-                            for (var row in results) {
-                              setState(() {
+                            //for (var row in results) {
+                              //setState(() {
                                 //print("insert success");
-                              });
-                            }
+                              //});
+                            //}
                           });
                         conn.close();
                       });
-                      _cartDialog("찜한 상품에 추가되었습니다.");
+                      //isFavorite = false;
+                      _popDialog('Cart', "찜한 상품에 추가되었습니다.");
                     }else{
                       db.getConnection().then((conn) {
                         String sql = ('delete from dbfinal.cart where model_num=' + model_num +' and user_num = ' + user_num );
                         conn.query(sql).then((results) {
-                          for (var row in results) {
-                            setState(() {
+                          //for (var row in results) {
+                            //setState(() {
                               //print("delete success");
-                            });
-                          }
+                            //});
+                          //}
                         });
                         conn.close();
                       });
-                      _cartDialog("찜한 상품에 삭제되었습니다.");
+                      //isFavorite = true;
+                      _popDialog("Cart", "찜한 상품에 삭제되었습니다.");
                     }
                     //_cartDialog();
-                  })
+                  });
                 },
 
               ),
@@ -300,21 +321,109 @@ class _ProductInfoState extends State<ProductInfo> {
                     SizedBox(
                       height: 10,
                     ),
+                    Text("리뷰 작성", style: TextStyle(color: const Color(0xff2C2C2C), fontSize: 16, fontWeight: FontWeight.bold)),
+                    Container(
+                        child: Row(
+                            children: [
+                              Text("       별점: ", style: TextStyle(fontSize:14),),
+                              IconButton(
+                                icon: Icon(
+                                  my_rating >= 1 ? Icons.star : Icons.star_border,
+                                  color: Colors.yellow,
+                                  size: 25,
+                                ),
+                                  onPressed: () {
+                                    setState(() {
+                                      my_rating = 1;
+                                    });
+                                  }
+                              ),
+                              IconButton(
+                                  icon: Icon(
+                                    my_rating >= 2 ? Icons.star : Icons.star_border,
+                                    color: Colors.yellow,
+                                    size: 25,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      my_rating = 2;
+                                    });
+                                  }
+                              ),
+                              IconButton(
+                                  icon: Icon(
+                                    my_rating >= 3 ? Icons.star : Icons.star_border,
+                                    color: Colors.yellow,
+                                    size: 25,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      my_rating = 3;
+                                    });
+                                  }
+                              ),
+                              IconButton(
+                                  icon: Icon(
+                                    my_rating >= 4 ? Icons.star : Icons.star_border,
+                                    color: Colors.yellow,
+                                    size: 25,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      my_rating = 4;
+                                    });
+                                  }
+                              ),
+                              IconButton(
+                                  icon: Icon(
+                                    my_rating >= 5 ? Icons.star : Icons.star_border,
+                                    color: Colors.yellow,
+                                    size: 25,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      my_rating = 5;
+                                    });
+                                  }
+                              ),
+                            ]
+                        )
+                    ),
+                    TextField(
+                      controller: reviewController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'review',
+                      ),
+                    ),
+                    TextButton(
+                      child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Text("Submit"),
+                      ),
+
+                      onPressed: (){
+                            db.getConnection().then((conn) {
+                              String sql = ('insert into dbfinal.review(model_num, user_num, rating, review_content) values(' + model_num + ', ' + user_num + ', ' + my_rating.toString() + ', \'' + reviewController.text + '\')');
+                              conn.query(sql).then((results) {
+                                for (var row in results) {
+                                  //setState(() {
+                                  //  print("insert success");
+                                  //});
+                                }
+                              });
+                              conn.close();
+                            });
+                            //isFavorite = false;
+                            _popDialog("Review", "리뷰가 추가되었습니다.");
+                      },
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Text("상품리뷰", style: TextStyle(color: const Color(0xff2C2C2C), fontSize: 16, fontWeight: FontWeight.bold)),
 
-                    for(int i = 0; i < pro_review_num; i++) _buildReview(user_name[i], major[i], review_content[i]),
-
-                    /*
-                    SizedBox(height: 16,),
-                    Text("뽀로로", style: TextStyle(color: const Color(0xff666666), fontSize: 15, fontWeight: FontWeight.bold)),
-                    Text("콘텐츠융합디자인학부", style: TextStyle(color: const Color(0xff666666), fontSize: 14)),
-                    SizedBox(height: 8,),
-                    Text("이번에 3D 모델링 수업을 듣게 돼서 여러가지 소프트웨어를 설치해야 했는데 무리없이 잘 설치되더라구요~! 같은 삼섬 제품이다보니 제 갤럭시탭과 연동해서 과제를 이어나갈 수도 있어서 너무 좋아요. 콘디 후배님들에게도 이 제품을 추천합니다!",
-                        style: TextStyle(color: const Color(0xff666666), fontSize: 14)),
-                    SizedBox(height: 12,),
-                    Divider(thickness: 0.4, color: Colors.grey[400], ),
-                    */
-
+                    for(int i = 0; i < pro_review_num; i++) _buildReview(user_name[i], major[i], rating[i], review_content[i]),
 
                   ],
                 ),
@@ -403,15 +512,48 @@ class _ProductInfoState extends State<ProductInfo> {
     );
   }
 
-  Widget _buildReview(String user_name, String major, String review_content){
+  Widget _buildReview(String user_name, String major, int rating, String review_content){
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
 
       children:[
       SizedBox(height: 16,),
       Text(user_name, style: TextStyle(color: const Color(0xff666666), fontSize: 15, fontWeight: FontWeight.bold)),
+        SizedBox(height: 5,),
+        Container(
+            child: Row(
+                children: [
+                  Icon(
+                    Icons.star,
+                    color: Colors.yellow,
+                    size: 15,
+                  ),
+                  Icon(
+                    rating >= 2 ? Icons.star : Icons.star_border,
+                    color: Colors.yellow,
+                    size: 15,
+                  ),
+                  Icon(
+                    rating >= 3 ? Icons.star : Icons.star_border,
+                    color: Colors.yellow,
+                    size: 15,
+                  ),
+                  Icon(
+                    rating >= 4 ? Icons.star : Icons.star_border,
+                    color: Colors.yellow,
+                    size: 15,
+                  ),
+                  Icon(
+                    rating == 5 ? Icons.star : Icons.star_border,
+                    color: Colors.yellow,
+                    size: 15,
+                  ),
+                ]
+            )
+        ),
+        SizedBox(height: 5,),
       Text(major, style: TextStyle(color: const Color(0xff666666), fontSize: 14)),
-      SizedBox(height: 8,),
+      SizedBox(height: 5,),
       Text(review_content, style: TextStyle(color: const Color(0xff666666), fontSize: 14)),
       SizedBox(height: 12,),
       Divider(thickness: 0.4, color: Colors.grey[400], ),
@@ -502,12 +644,12 @@ class _ProductInfoState extends State<ProductInfo> {
     );
   }
 
-  void _cartDialog(String dia_content) {
+  void _popDialog(String dia_title, String dia_content) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Cart"),
+          title: Text(dia_title),
           content: Text(dia_content),
           actions: <Widget>[
             TextButton(
