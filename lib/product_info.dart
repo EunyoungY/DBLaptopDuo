@@ -169,16 +169,14 @@ class _ProductInfoState extends State<ProductInfo> {
 
 
               IconButton(
-                icon: Icon(
-                  isFavorite ? Icons.favorite : Icons.favorite_border,
+                icon:
+                  isFavorite ? Icon(Icons.favorite) : Icon(Icons.favorite_border,
                   color: Colors.redAccent[100],
                 ),
 
-                onPressed: () => {
+                onPressed: (){
                   setState(() {
                     isFavorite = !isFavorite;
-                    //print(isFavorite);
-
                     if(isFavorite) {
                       db.getConnection().then((conn) {
                           String sql = ('insert into dbfinal.cart values(' + user_num + ', ' + model_num + ')');
@@ -207,7 +205,7 @@ class _ProductInfoState extends State<ProductInfo> {
                       _cartDialog("찜한 상품에 삭제되었습니다.");
                     }
                     //_cartDialog();
-                  })
+                  });
                 },
 
               ),
