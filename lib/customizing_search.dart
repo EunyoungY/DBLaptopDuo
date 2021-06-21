@@ -3,6 +3,7 @@ import 'package:laptop_duo/search.dart';
 import 'filter.dart';
 import 'mysql.dart';
 import 'product_info.dart';
+import 'package:intl/intl.dart';
 
 var db = new Mysql();
 
@@ -14,6 +15,8 @@ class CustomizingSearch extends StatefulWidget {
 class _CustomizingSearchState extends State<CustomizingSearch> {
   String dropdownValue = '낮은가격순';
   // TextEditingController _searchController = TextEditingController();
+  var f = NumberFormat('###,###,###,###');
+
   var model_num = [];
   var model_name = [];
   var laptop_price = [];
@@ -34,42 +37,14 @@ class _CustomizingSearchState extends State<CustomizingSearch> {
     int d = 0;
     int e = 0;
     db.getConnection().then((conn) {
-      String sql = ('select model_num from dbfinal.laptop_image_review_asc');
+      String sql = ('select model_num,model_name, laptop_price, review_count from dbfinal.laptop_image_review_asc');
       conn.query(sql).then((results) {
         for(var row in results){
           setState(() {
             model_num.add(row[0].toString());
-          });
-        }
-      });
-      conn.close();
-    });
-    db.getConnection().then((conn) {
-      String sql = ('select model_name from dbfinal.laptop_image_review_asc');
-      conn.query(sql).then((results) {
-        for(var row in results){
-          setState(() {
-            model_name.add(row[0]);
-          });
-        }
-      });
-      conn.close();
-    });db.getConnection().then((conn) {
-      String sql = ('select laptop_price, review_count from dbfinal.laptop_image_review_asc');
-      conn.query(sql).then((results) {
-        for(var row in results){
-          setState(() {
-            laptop_price.add(row[0].toString());
-          });
-        }
-      });
-      conn.close();
-    });db.getConnection().then((conn) {
-      String sql = ('select review_count from dbfinal.laptop_image_review_asc');
-      conn.query(sql).then((results) {
-        for(var row in results){
-          setState(() {
-            review_count.add(row[0].toString());
+            model_name.add(row[1]);
+            laptop_price.add(row[2]);
+            review_count.add(row[3].toString());
           });
         }
       });
@@ -91,47 +66,20 @@ class _CustomizingSearchState extends State<CustomizingSearch> {
     //---------------
     //desc
     db.getConnection().then((conn) {
-      String sql = ('select model_num from dbfinal.laptop_image_review_desc');
+      String sql = ('select model_num,model_name, laptop_price, review_count from dbfinal.laptop_image_review_desc');
       conn.query(sql).then((results) {
         for(var row in results){
           setState(() {
             model_num_desc.add(row[0].toString());
+            model_name_desc.add(row[1]);
+            laptop_price_desc.add(row[2]);
+            review_count_desc.add(row[3].toString());
           });
         }
       });
       conn.close();
     });
-    db.getConnection().then((conn) {
-      String sql = ('select model_name from dbfinal.laptop_image_review_desc');
-      conn.query(sql).then((results) {
-        for(var row in results){
-          setState(() {
-            model_name_desc.add(row[0]);
-          });
-        }
-      });
-      conn.close();
-    });db.getConnection().then((conn) {
-      String sql = ('select laptop_price, review_count from dbfinal.laptop_image_review_desc');
-      conn.query(sql).then((results) {
-        for(var row in results){
-          setState(() {
-            laptop_price_desc.add(row[0].toString());
-          });
-        }
-      });
-      conn.close();
-    });db.getConnection().then((conn) {
-      String sql = ('select review_count from dbfinal.laptop_image_review_desc');
-      conn.query(sql).then((results) {
-        for(var row in results){
-          setState(() {
-            review_count_desc.add(row[0].toString());
-          });
-        }
-      });
-      conn.close();
-    });
+
     db.getConnection().then((conn) {
       String sql = ('select image_url from dbfinal.laptop_image_review_desc');
       conn.query(sql).then((results) {
@@ -231,7 +179,7 @@ class _CustomizingSearchState extends State<CustomizingSearch> {
           child: GridView.builder(
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
-            itemCount: 10,
+            itemCount: 50,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,childAspectRatio: 1,),
             itemBuilder: (context, index){
               return Card(
@@ -248,7 +196,7 @@ class _CustomizingSearchState extends State<CustomizingSearch> {
                                 width: 150,
                                 height: 100,
                                 child: InkWell(
-                                    child: Image.network(image_url[a++]), //'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/macbook-air-silver-config-201810?wid=1078&hei=624&fmt=jpeg&qlt=80&.v=1603332212000'),
+                                    child: Image.network(image_url.isEmpty ? ' ' : image_url[a++]), //'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/macbook-air-silver-config-201810?wid=1078&hei=624&fmt=jpeg&qlt=80&.v=1603332212000'),
                                     onTap: () {
                                       Navigator.push(
                                           context,
@@ -256,9 +204,9 @@ class _CustomizingSearchState extends State<CustomizingSearch> {
                                               builder: (BuildContext context) =>ProductInfo(model_num[index], "1") ));
                                     }),
                             ),
-                            Container(width : 100, child: Text( model_name[c++], overflow: TextOverflow.ellipsis)),
-                            Text('${laptop_price[d++]}원', overflow: TextOverflow.ellipsis, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                            Text('리뷰 ${review_count[e++]}',overflow: TextOverflow.ellipsis,),
+                            Container(width : 100, child: Text(model_name.isEmpty ? ' ' : model_name[c++], overflow: TextOverflow.ellipsis)),
+                            Text(laptop_price.isEmpty ? ' ' :f.format(laptop_price[d++]).toString()+'원', overflow: TextOverflow.ellipsis, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                            Text(review_count.isEmpty ? ' ' :'리뷰 ${review_count[e++]}',overflow: TextOverflow.ellipsis,),
                           ],
                         ),
                       ],
@@ -289,7 +237,7 @@ class _CustomizingSearchState extends State<CustomizingSearch> {
                               width: 150,
                               height: 100,
                               child: InkWell(
-                                  child: Image.network(image_url_desc[a++]),//'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/macbook-air-silver-config-201810?wid=1078&hei=624&fmt=jpeg&qlt=80&.v=1603332212000'),
+                                  child: Image.network(image_url_desc.isEmpty ? ' ' : image_url_desc[a++]), //'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/macbook-air-silver-config-201810?wid=1078&hei=624&fmt=jpeg&qlt=80&.v=1603332212000'),
                                   onTap: () {
                                     Navigator.push(
                                         context,
@@ -297,9 +245,9 @@ class _CustomizingSearchState extends State<CustomizingSearch> {
                                             builder: (BuildContext context) =>ProductInfo(model_num_desc[index], "1") ));
                                   }),
                             ),
-                            Container(width : 100, child: Text( model_name_desc[c++], overflow: TextOverflow.ellipsis)),
-                            Text('${laptop_price_desc[d++]}원', overflow: TextOverflow.ellipsis, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                            Text('리뷰 ${review_count_desc[e++]}',overflow: TextOverflow.ellipsis,),
+                            Container(width : 100, child: Text(model_name_desc.isEmpty ? ' ' : model_name_desc[c++], overflow: TextOverflow.ellipsis)),
+                            Text(laptop_price_desc.isEmpty ? ' ' :f.format(laptop_price_desc[d++]).toString()+'원', overflow: TextOverflow.ellipsis, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                            Text(review_count_desc.isEmpty ? ' ' :'리뷰 ${review_count_desc[e++]}',overflow: TextOverflow.ellipsis,),
                           ],
                         ),
                       ],
