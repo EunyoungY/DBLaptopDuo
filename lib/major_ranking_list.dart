@@ -25,6 +25,7 @@ class _MajorRankingPageState extends State<MajorRankingPage> {
   var processor_name = [];
   var storage_capacity= [];
   var price = [];
+  var url = [];
 
 
   var f = NumberFormat('###,###,###,###');
@@ -43,6 +44,8 @@ class _MajorRankingPageState extends State<MajorRankingPage> {
               processor_name.add(row[6]);
               storage_capacity.add(row[9]);
               price.add(row[3]);
+              var temp = row[16].replaceAll('http', 'https');
+              url.add(temp);
             }
           });
         }
@@ -92,9 +95,15 @@ class _MajorRankingPageState extends State<MajorRankingPage> {
                     child: Container(
                         height: 200,
                         width: 270,
-                        child: Image.network(
-                          'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/macbook-air-silver-config-201810?wid=1078&hei=624&fmt=jpeg&qlt=80&.v=1603332212000',
-                        )),
+                        // child: Image.network(
+                        //   'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/macbook-air-silver-config-201810?wid=1078&hei=624&fmt=jpeg&qlt=80&.v=1603332212000',
+                        // )
+                      child: Image.network(
+                          url.isEmpty?'https://mblogthumb-phinf.pstatic.net/MjAxNzEyMThfMjQ1/MDAxNTEzNjA3MTcwNTg4.f9D3x971p8iDr_ox3nOQZmp2bHHA3YEtAvWI6-Zq6aAg.1E7HSp02TKDPZwC1wdciQdKiMEEzo0TvuY0ts5OmK4Mg.PNG.ooza-/IMG_9198.PNG?type=w800': url[0]
+                      )
+
+
+                    ),
                   ),
                 ],
               ),
