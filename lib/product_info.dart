@@ -168,32 +168,27 @@ class _ProductInfoState extends State<ProductInfo> {
                       child: Container(
                           height: 200,
                           width: 270,
-                          child: Image.network(image)),
+                          child: Image.network(image.isEmpty?'https://mblogthumb-phinf.pstatic.net/MjAxNzEyMThfMjQ1/MDAxNTEzNjA3MTcwNTg4.f9D3x971p8iDr_ox3nOQZmp2bHHA3YEtAvWI6-Zq6aAg.1E7HSp02TKDPZwC1wdciQdKiMEEzo0TvuY0ts5OmK4Mg.PNG.ooza-/IMG_9198.PNG?type=w800': image)),
+
                     ),
                   ],
                 ),
               ),
 
+              SizedBox(height:20),
 
-              Center(
-                  child: Text(
-                      model_name,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold
-                      )
-                  )
+
+
+              Padding(
+                padding: const EdgeInsets.fromLTRB(25,0,25,0),
+                child: Center(child: Text(model_name, style: TextStyle(color: const Color(0xff2C2C2C), fontSize: 18, fontWeight: FontWeight.bold)),),
               ),
-
 
               IconButton(
                 icon:
                   isFavorite ? Icon(Icons.favorite) : Icon(Icons.favorite_border,
                   color: Colors.redAccent[100],
                 ),
-
-
                 onPressed: () {
                   setState(() {
                     isFavorite = !isFavorite;
