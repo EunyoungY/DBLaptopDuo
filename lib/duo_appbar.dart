@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'customizing_search.dart';
 import 'mypage.dart';
 
 class DuoAppBar extends StatelessWidget with PreferredSizeWidget {
@@ -53,15 +54,22 @@ class DuoAppBar extends StatelessWidget with PreferredSizeWidget {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 10.0),
-            child: IconButton(
-              icon: Icon(
-                Icons.person,
-                color: Colors.black87,
-              ),
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => MyPage()),
-              ),
+            child: Row(
+              children: [
+                IconButton(icon: Icon(Icons.search,color: Colors.black87), onPressed:(){
+                  showSearch(context: context, delegate: DataSearch());
+                }),
+                IconButton(
+                  icon: Icon(
+                    Icons.person,
+                    color: Colors.black87,
+                  ),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MyPage()),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
